@@ -1,0 +1,14 @@
+Source: scanner-pro-ll2
+Maintainer: David Kozub <zub.272@gmail.come>
+Section: misc
+Priority: optional
+Standards-Version: 3.9.5
+Build-Depends: debhelper (>= 9), libusb-0.1-4, sane
+
+Package: scanner-pro-ll2
+Architecture: i386
+Depends: ${shlibs:Depends}, ${misc:Depends}, libusb-0.1-4, sane
+Description: SANE driver 'Scanner Pro LL2' by SAGEMCOM
+ This is a deb package of the binary driver. It is used by some Philips
+ and Ricoh multifunction printers with scanner (e.g. Philips MFD 6020,
+ Ricoh Aficio SP1100S).

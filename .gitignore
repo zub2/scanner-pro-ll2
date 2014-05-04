@@ -1,0 +1,20 @@
+# upstream zip
+lff6020_inb_dlx_eng.zip
+
+# repacked upstream
+scanner-pro-ll2_*.orig.tar.xz
+
+# unpacked and build files
+scanner-pro-ll2-*/Linux/
+scanner-pro-ll2-*/unpacked_scanner/
+scanner-pro-ll2-*/debian/files
+scanner-pro-ll2-*/debian/scanner-pro-ll2/
+scanner-pro-ll2-*/debian/scanner-pro-ll2.debhelper.log
+scanner-pro-ll2-*/debian/scanner-pro-ll2.substvars
+
+# generated files
+scanner-pro-ll2_*.debian.tar.gz
+scanner-pro-ll2_*.dsc
+scanner-pro-ll2_*.build
+scanner-pro-ll2_*.changes
+scanner-pro-ll2_*.deb

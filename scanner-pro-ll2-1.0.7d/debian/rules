@@ -1,0 +1,45 @@
+#!/usr/bin/make -f
+
+PKG_NAME = scanner-pro-ll2
+
+# there are both Linux/Scanner/debian and Linux/Scanner/Ubuntu but
+# the tarballs in these directories are the same (at least for the version
+# I tested)
+INNER_TARBALL = Linux/Scanner/debian/spll2-1.0-linux-2.6-intel.tar.gz
+
+TARBALL_DEST = unpacked_scanner
+STAGING = debian/$(PKG_NAME)
+
+%:
+	dh $@
+
+override_dh_makeshlibs:
+	# do nothing to quench Can't exec "i686-linux-gnu-objdump" when cross-building
+
+override_dh_auto_build:
+	# this is a binary blob, but it's contaned in a tar inside the orig archive
+	# so misuse auto_build to extract this second level
+	mkdir "$(TARBALL_DEST)" && tar -xzv -C "$(TARBALL_DEST)" -f "$(INNER_TARBALL)"
+
+override_dh_auto_clean:
+	# undo what our custom auto_build does
+	rm -rf -- "$(TARBALL_DEST)"
+
+override_dh_auto_install:
+	# in the extracted files, there are two weirdly-named gzipped tarballs:
+	# * spll2.ss: /usr/lib/sane/libsane-spll2.so.1 and /usr/sbin/spll2d
+	# * spll2.sw: /etc/sane.d/spll2.conf and /etc/udev/rules.d/99-libspll2.rules
+	mkdir -p "$(STAGING)"
+	tar -xzv -C "$(STAGING)" -f "$(TARBALL_DEST)/spll2.ss"
+	tar -xzv -C "$(STAGING)" -f "$(TARBALL_DEST)/spll2.sw"
+	# register the driver in /etc/sane.d/dll.d/...
+	mkdir -p "$(STAGING)/etc/sane.d/dll.d/"
+	echo "# dll.conf snippet for $(PKG_NAME)\n\nspll2" > "$(STAGING)/etc/sane.d/dll.d/$(PKG_NAME)"
+	# fix udev-rule-in-etc (http://lintian.debian.org/tags/udev-rule-in-etc.html)
+	mkdir -p "$(STAGING)/lib/udev/rules.d"
+	mv "$(STAGING)/etc/udev/rules.d/"* "$(STAGING)/lib/udev/rules.d"
+	# ... and make it more current
+	sed -e 's/SYSFS/ATTRS/g;s/MODE="666"/MODE="0664"/' -i "$(STAGING)/lib/udev/rules.d/"*
+	# rmdir so that if there is something more the build fails
+	rmdir "$(STAGING)/etc/udev/rules.d/"
+	rmdir "$(STAGING)/etc/udev/"
