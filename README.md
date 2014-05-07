@@ -96,9 +96,13 @@ Then finally you can install the package itself:
 
 And that should be it. If you're lucky:
 
-    sudo sane
+    sudo scanimage
 
-should tell you it sees the scanner:
+should tell you it sees the scanner — something like:
+
+    ...
+    List of available devices:
+    spll2:usb:005:002
 
 To actually use sane with your user account, add yourself to the group "scanner":
 
