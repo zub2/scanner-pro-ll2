@@ -66,7 +66,7 @@ If you're on amd64 and want to build the package anyway, try this:
 
 It's a bit hacky, but should result in a working package too.
 
-The resulting files should be build in the parent directory of the current one (so, in the root of the repository). The file you care about is `scanner-pro-ll2_1.0.7d-1_i386.deb`.
+The resulting files should be built in the parent directory of the current one (so, in the root of the repository). The file you care about is `scanner-pro-ll2_1.0.7d-1_i386.deb`.
 
 ## How to install the package
 

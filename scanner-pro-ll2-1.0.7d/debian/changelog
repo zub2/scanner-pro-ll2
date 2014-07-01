@@ -1,5 +1,6 @@
-scanner-pro-ll2 (1.0.7d-1) UNRELEASED; urgency=medium
+scanner-pro-ll2 (1.0.7d-2) UNRELEASED; urgency=medium
 
   * Initial release.
+  * fix a typo in debian/control
 
- -- David Kozub <zub.272@gmail.com>  Sun, 04 May 2014 12:41:58 +0200
+ -- David Kozub <zub.272@gmail.com>  Wed, 02 Jul 2014 00:12:29 +0200
