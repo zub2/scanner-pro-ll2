@@ -38,8 +38,14 @@ override_dh_auto_install:
 	# fix udev-rule-in-etc (http://lintian.debian.org/tags/udev-rule-in-etc.html)
 	mkdir -p "$(STAGING)/lib/udev/rules.d"
 	mv "$(STAGING)/etc/udev/rules.d/"* "$(STAGING)/lib/udev/rules.d"
-	# ... and make it more current
-	sed -e 's/SYSFS/ATTRS/g;s/MODE="666"/MODE="0664"/' -i "$(STAGING)/lib/udev/rules.d/"*
+	# make it more current
+	sed -e '/./s/^/SUBSYSTEM=="usb", /;s/SYSFS/ATTRS/g;s/MODE="666"/MODE="0660"/' -i "$(STAGING)/lib/udev/rules.d/"*
+	# ... add a comment
+	sed -e '1i # udev rules for libspll2 scanners\n' -i "$(STAGING)/lib/udev/rules.d/"*
+	# ... strip trailing whitespace
+	sed -re 's/[[:space:]]+$$//' -i "$(STAGING)/lib/udev/rules.d/"*
+	# .. and strip trailing empty lines (thanks to http://sed.sourceforge.net/sed1line.txt)
+	sed -e :a -e '/^\n*$$/{$$d;N;ba' -e '}' -i "$(STAGING)/lib/udev/rules.d/"*
 	# rmdir so that if there is something more the build fails
 	rmdir "$(STAGING)/etc/udev/rules.d/"
 	rmdir "$(STAGING)/etc/udev/"

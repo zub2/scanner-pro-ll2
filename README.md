@@ -16,6 +16,7 @@ First make sure you have the necessary tools to build the package. Required pack
 * devscripts
 * debhelper
 * wget
+* libusb-0.1-4 (the 32-bit version, so libusb-0.1-4:i386 is the name of the package you need on amd64)
 
 You can install these e.g. by:
 
@@ -64,7 +65,7 @@ If you're on amd64 and want to build the package anyway, try this:
 
     DEB_BUILD_OPTIONS="nostrip" debuild -us -uc -ai386
 
-It's a bit hacky, but should result in a working package too.
+It's a bit hacky, but should result in a working package too. Just make sure you do have libusb-0.1-4:i386 installed as in this case debuild doesn't seem to check for it.
 
 The resulting files should be built in the parent directory of the current one (so, in the root of the repository). The file you care about is `scanner-pro-ll2_1.0.7d-1_i386.deb`.
 
@@ -80,13 +81,11 @@ If your architecture is i386, just do:
 
 For amd64 this is more complicated. The upstream binaries are for i386 only, so if you want to install the package on amd64 (x86_64), you need to get the dependencies that were built for the i386 architecture.
 
-To get that, you can do like:
+To get that, you can do:
 
-    dpkg --add-architecture i386
-    apt-get update
     apt-get install sane:i386 libusb-0.1-4:i386
 
-though it might be better to use something like Aptitude to be able to analyze and solve possible conflicts or other issues. See https://wiki.debian.org/Multiarch/HOWTO.
+though it might be better to use something like Aptitude to be able to analyze and solve possible conflicts or other issues. You need to have multiarch enabled. See https://wiki.debian.org/Multiarch/HOWTO.
 
 Note there there is one unavoidable issue: It's not possible to install both sane:amd64 and sane:i386 at the same time.
 
